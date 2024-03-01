@@ -22,9 +22,9 @@ run_speedtest()
     packets_received=$(echo "$ping_output" | grep 'packets transmitted' | awk '{print $4}')
 
 
-    min_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $5}')
-    avg_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $6}')
-    max_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $7}')
+    min_latency=$(echo "$ping_output" | grep 'min/avg/max/mdev' | awk -F '[ /]' '{print $7}')
+    avg_latency=$(echo "$ping_output" | grep 'min/avg/max/mdev' | awk -F '[ /]' '{print $8}')
+    max_latency=$(echo "$ping_output" | grep 'min/avg/max/mdev' | awk -F '[ /]' '{print $9}')
 
     sum_sent_bps=$(echo "$output" | jq '.end.sum_sent.bits_per_second')
     sum_received_bps=$(echo "$output" | jq '.end.sum_received.bits_per_second')
