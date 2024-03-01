@@ -54,9 +54,9 @@ echo "$json_output"
     then
         echo "Saving values to database..."
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
-            --data-binary "download,host=$HOSTNAME value=$DOWNLOAD $DATE"
+            --data-binary "download,host=$HOSTNAME value=$sum_received_gbps $DATE"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
-            --data-binary "upload,host=$HOSTNAME value=$UPLOAD $DATE"
+            --data-binary "upload,host=$HOSTNAME value=$sum_sent_gbps $DATE"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
             --data-binary "ping,host=$HOSTNAME value=$min_latency $DATE"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
