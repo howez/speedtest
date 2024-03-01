@@ -22,9 +22,9 @@ run_speedtest()
     packets_received=$(echo "$ping_output" | grep 'packets transmitted' | awk '{print $4}')
 
 
-    min_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $4}')
-    avg_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $5}')
-    max_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $6}')
+    min_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $5}')
+    avg_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $6}')
+    max_latency=$(echo "$ping_output" | grep 'min/avg/max' | awk -F'/' '{print $7}')
 
     sum_sent_bps=$(echo "$output" | jq '.end.sum_sent.bits_per_second')
     sum_received_bps=$(echo "$output" | jq '.end.sum_received.bits_per_second')
@@ -58,11 +58,11 @@ echo "$json_output"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
             --data-binary "upload,host=$HOSTNAME value=$sum_sent_gbps $DATE"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
-            --data-binary "ping,host=$HOSTNAME value=$min_latency $DATE"
-        curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
             --data-binary "ping_avg,host=$HOSTNAME value=$avg_latency $DATE"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
             --data-binary "ping_max,host=$HOSTNAME value=$max_latency $DATE"
+        curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
+            --data-binary "ping_min,host=$HOSTNAME value=$min_latency $DATE"
         echo "Values saved."
     fi
 }
