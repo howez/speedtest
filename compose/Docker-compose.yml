@@ -1,0 +1,44 @@
+version: "3"
+services:
+  grafana:
+    image: grafana/grafana:7.5.2
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana:/var/lib/grafana
+    depends_on:
+      - influxdb
+
+  influxdb:
+    image: influxdb:1.8.3
+    restart: always
+    volumes:
+      - influxdb:/var/lib/influxdb
+    ports:
+      - 8083:8083
+      - 8086:8086
+    environment:
+      - INFLUXDB_ADMIN_USER="admin"
+      - INFLUXDB_ADMIN_PASSWORD="password"
+      - INFLUXDB_DB="speedtest"
+
+  speedtest:
+    image: howez/spdtest:latest
+    restart: always
+    environment:
+      - LOOP=true
+      - LOOP_DELAY=60
+      - DB_SAVE=false
+      - DB_HOST=http://influxdb:8086
+      - DB_NAME=speedtest
+      - DB_USERNAME=admin
+      - DB_PASSWORD=password
+      - HOST=speedtest.chi11.us.leaseweb.net
+    privileged: true # Needed for 'sleep' in the loop
+    depends_on:
+      - influxdb
+
+volumes:
+  grafana:
+  influxdb:

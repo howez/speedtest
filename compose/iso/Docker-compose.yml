@@ -1,0 +1,16 @@
+version: "3"
+services:
+  speedtest:
+    image: howez/spdtest:latest
+    restart: always
+    environment:
+      - LOOP=true
+      - LOOP_DELAY=60
+      - DB_SAVE=false
+      - DB_HOST=http://influxdb:8086
+      - DB_NAME=speedtest
+      - DB_USERNAME=admin
+      - DB_PASSWORD=password
+      - HOST=speedtest.chi11.us.leaseweb.net
+    privileged: true # Needed for 'sleep' in the loop
+

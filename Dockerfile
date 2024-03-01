@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:12.4-slim
 
 # Install basics
 RUN apt-get update && apt-get install -y curl jq gnupg1 apt-transport-https dirmngr iperf3 iputils-ping bc
