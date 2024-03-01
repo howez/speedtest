@@ -29,7 +29,7 @@ services:
     environment:
       - LOOP=true
       - LOOP_DELAY=60
-      - DB_SAVE=false
+      - DB_SAVE=true
       - DB_HOST=http://influxdb:8086
       - DB_NAME=speedtest
       - DB_USERNAME=admin

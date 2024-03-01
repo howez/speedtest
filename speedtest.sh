@@ -35,7 +35,7 @@ run_speedtest()
     # Format the extracted data as JSON
     json_output=$(cat <<EOF
 {
-    "host": "$host",
+    "host": "$HOST",
     "packets_transmitted": $packets_transmitted,
     "packets_received": $packets_received,
     "min_latency_ms": $min_latency,
@@ -60,9 +60,9 @@ echo "$json_output"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
             --data-binary "ping,host=$HOSTNAME value=$min_latency $DATE"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
-            --data-binary "ping_avg,host=$HOSTNAME value=$PING $DATE"
+            --data-binary "ping_avg,host=$HOSTNAME value=$avg_latency $DATE"
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \
-            --data-binary "ping_max,host=$HOSTNAME value=$PING $DATE"
+            --data-binary "ping_max,host=$HOSTNAME value=$max_latency $DATE"
         echo "Values saved."
     fi
 }
